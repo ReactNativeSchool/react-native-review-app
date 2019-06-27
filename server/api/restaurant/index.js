@@ -2,10 +2,9 @@ const app = require("../../util/configureApi");
 const connectDB = require("../../util/db");
 const Restaurant = require("../../models/Restaurant");
 
-app.get("*", (req, res) => {
+app.get("*", require("../../middleware/auth"), (req, res) => {
   connectDB()
     .then(() => {
-      console.log("user", req.user);
       const { _id } = req.query;
       if (_id) {
         return Restaurant.findOne({ _id });

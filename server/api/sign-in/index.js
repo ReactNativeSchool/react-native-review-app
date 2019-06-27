@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const app = require("../../util/configureApi");
 const connectDB = require("../../util/db");
 const User = require("../../models/User");
+const config = require("../../config");
 
 app.post("*", (req, res) => {
   let finalUser;
@@ -20,7 +21,7 @@ app.post("*", (req, res) => {
         throw new Error("Incorrect password.");
       }
 
-      return jwt.sign({ userId: finalUser._id }, "SUPER_SECRET_TOKEN");
+      return jwt.sign({ userId: finalUser._id }, config.JWT_SECRET);
     })
     .then(token => {
       res.status(200).json({
