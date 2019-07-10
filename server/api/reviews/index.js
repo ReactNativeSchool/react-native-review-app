@@ -3,7 +3,7 @@ const connectDB = require("../../util/db");
 const Review = require("../../models/Review");
 const Restaurant = require("../../models/Restaurant");
 
-app.get("*", (req, res) => {
+app.get("*", require("../../middleware/auth"), (req, res) => {
   connectDB()
     .then(() => {
       const { restaurantId } = req.query;
@@ -25,7 +25,7 @@ app.get("*", (req, res) => {
     });
 });
 
-app.post("*", (req, res) => {
+app.post("*", require("../../middleware/auth"), (req, res) => {
   connectDB()
     .then(() => Restaurant.findOne({ _id: req.body.restaurantId }))
     .then(restaurant => {
