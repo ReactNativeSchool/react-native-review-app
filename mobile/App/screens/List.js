@@ -2,36 +2,26 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 
 import { List, ListItem } from "../components/List";
-
-const DATA = [
-  {
-    _id: "5d14d8360ac4c1fab0fe8999",
-    name: "Restaurant 1",
-    hours: "8am - 8pm",
-    address: "123 Fake Street",
-    __v: 0
-  },
-  {
-    _id: "5d14d8360ac4c1fab0fe899a",
-    name: "Restaurant 2",
-    hours: "1pm - 11pm",
-    address: "000 Hmm Drive",
-    __v: 0
-  },
-  {
-    _id: "5d14d8360ac4c1fab0fe899b",
-    name: "Restaurant 3",
-    hours: "7am - 7pm",
-    address: "111 Real Street",
-    __v: 0
-  }
-];
+import { reviewApi } from "../util/api";
 
 export default class ListScreen extends React.Component {
   state = {
-    restaurants: DATA,
-    restaurantsLoading: false
+    restaurants: [],
+    restaurantsLoading: true
   };
+
+  componentDidMount() {
+    reviewApi("/restaurant")
+      .then(res => {
+        this.setState({
+          restaurants: res.result,
+          restaurantsLoading: false
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   render() {
     if (this.state.restaurantsLoading) {

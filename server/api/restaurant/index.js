@@ -2,7 +2,7 @@ const app = require("../../util/configureApi");
 const connectDB = require("../../util/db");
 const Restaurant = require("../../models/Restaurant");
 
-app.get("*", (req, res) => {
+app.get("*", require("../../middleware/auth"), (req, res) => {
   connectDB()
     .then(() => {
       const { _id } = req.query;

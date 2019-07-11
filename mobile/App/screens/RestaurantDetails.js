@@ -11,6 +11,7 @@ import {
 import { format } from "date-fns";
 
 import { Button } from "../components/Button";
+import { reviewApi } from "../util/api";
 
 const styles = StyleSheet.create({
   container: {
@@ -54,39 +55,48 @@ const styles = StyleSheet.create({
   }
 });
 
-const REVIEWS = [
-  {
-    _id: "5d14d8370ac4c1fab0fe899d",
-    content: "This is the second review for Restaurant 1!",
-    restaurantId: "5d14d8360ac4c1fab0fe8999",
-    createdAt: "2019-06-27T14:52:39.268Z",
-    __v: 0
-  },
-  {
-    _id: "5d14d8370ac4c1fab0fe899c",
-    content: "This is the first review for Restaurant 1!",
-    restaurantId: "5d14d8360ac4c1fab0fe8999",
-    createdAt: "2019-06-27T14:52:39.268Z",
-    __v: 0
-  },
-  {
-    _id: "5d14d8370ac4c1fab0fe899e",
-    content: "This is the third review for Restaurant 1!",
-    restaurantId: "5d14d8360ac4c1fab0fe8999",
-    createdAt: "2019-06-27T14:52:39.268Z",
-    __v: 0
-  }
-];
-
 class RestaurantDetails extends React.Component {
   state = {
-    reviewsLoading: false,
-    reviews: REVIEWS,
+    reviewsLoading: true,
+    reviews: [],
     newReview: ""
   };
 
+  componentDidMount() {
+    this.fetchReviews();
+  }
+
+  fetchReviews = () => {
+    const item = this.props.navigation.getParam("item", {});
+    reviewApi(`/reviews?restaurantId=${item._id}`)
+      .then(res => {
+        this.setState({
+          reviews: res.result,
+          reviewsLoading: false
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   submitReview = () => {
-    this.setState({ newReview: "" });
+    const item = this.props.navigation.getParam("item", {});
+
+    reviewApi(`/reviews`, {
+      method: "POST",
+      body: JSON.stringify({
+        restaurantId: item._id,
+        content: this.state.newReview
+      })
+    })
+      .then(() => {
+        this.fetchReviews();
+        this.setState({ newReview: "" });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {

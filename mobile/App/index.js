@@ -1,13 +1,18 @@
 import React from "react";
-import { StatusBar } from "react-native";
-import { createAppContainer, createStackNavigator, createSwitchNavigator } from "react-navigation";
+import { StatusBar, TouchableOpacity, Text } from "react-native";
+import {
+  createAppContainer,
+  createStackNavigator,
+  createSwitchNavigator
+} from "react-navigation";
 
+import Initializing from "./screens/Initializing";
 import List from "./screens/List";
 import RestaurantDetails from "./screens/RestaurantDetails";
-import SignIn from './screens/SignIn';
-import CreateAccount from './screens/CreateAccount';
-
-// import { AddButton } from "./components/Navigation";
+import SignIn from "./screens/SignIn";
+import CreateAccount from "./screens/CreateAccount";
+import { saveAuthToken } from "./util/api";
+import { setTopLevelNavigator } from "./util/NavigationService";
 
 const defaultStackOptions = {
   headerStyle: {
@@ -20,9 +25,20 @@ const Information = createStackNavigator(
   {
     List: {
       screen: List,
-      navigationOptions: {
+      navigationOptions: ({ navigation }) => ({
         headerTitle: "Restaurants",
-      }
+        headerRight: (
+          <TouchableOpacity
+            onPress={() => {
+              saveAuthToken().then(() => {
+                navigation.navigate("Auth");
+              });
+            }}
+          >
+            <Text style={{ color: "#fff", marginRight: 10 }}>Sign Out</Text>
+          </TouchableOpacity>
+        )
+      })
     },
     RestaurantDetails: {
       screen: RestaurantDetails,
@@ -38,35 +54,43 @@ const Information = createStackNavigator(
   }
 );
 
-const Auth = createStackNavigator({
-  CreateAccount: {
-    screen: CreateAccount,
-    navigationOptions: {
-      headerTitle: 'Create Account'
+const Auth = createStackNavigator(
+  {
+    CreateAccount: {
+      screen: CreateAccount,
+      navigationOptions: {
+        headerTitle: "Create Account"
+      }
+    },
+    SignIn: {
+      screen: SignIn,
+      navigationOptions: {
+        headerTitle: "Sign In"
+      }
     }
   },
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: {
-      headerTitle: 'Sign In'
+  {
+    defaultNavigationOptions: {
+      ...defaultStackOptions
     }
-  },
-},{
-  defaultNavigationOptions: {
-    ...defaultStackOptions
   }
-});
+);
 
 const App = createSwitchNavigator({
-  // Auth,
-  Information,
-})
+  Initializing,
+  Auth,
+  Information
+});
 
 const AppWithContainer = createAppContainer(App);
 
 export default () => (
   <React.Fragment>
     <StatusBar barStyle="light-content" />
-    <AppWithContainer />
+    <AppWithContainer
+      ref={navigatorRef => {
+        setTopLevelNavigator(navigatorRef);
+      }}
+    />
   </React.Fragment>
 );
