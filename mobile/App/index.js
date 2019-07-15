@@ -10,6 +10,8 @@ import List from "./screens/List";
 import RestaurantDetails from "./screens/RestaurantDetails";
 import SignIn from "./screens/SignIn";
 import CreateAccount from "./screens/CreateAccount";
+import Initializing from "./screens/Initializing";
+import { saveAuthToken } from "./util/api";
 
 const defaultStackOptions = {
   headerStyle: {
@@ -25,7 +27,11 @@ const Information = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         headerTitle: "Restaurants",
         headerRight: (
-          <TouchableOpacity onPress={() => navigation.navigate("Auth")}>
+          <TouchableOpacity
+            onPress={() => {
+              saveAuthToken().then(() => navigation.navigate("Auth"));
+            }}
+          >
             <Text style={{ color: "#fff", marginRight: 10 }}>Sign Out</Text>
           </TouchableOpacity>
         )
@@ -68,6 +74,7 @@ const Auth = createStackNavigator(
 );
 
 const App = createSwitchNavigator({
+  Initializing,
   Auth,
   Information
 });
