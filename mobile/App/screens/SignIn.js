@@ -13,7 +13,6 @@ export default class SignIn extends React.Component {
 
   handleSubmit = () => {
     this.setState({ error: "" });
-    alert("todo!");
     this.props.navigation.navigate("Information");
   };
 
