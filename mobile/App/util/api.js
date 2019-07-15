@@ -1,7 +1,26 @@
-const BASE_URL = "http://localhost:3000";
+import { AsyncStorage } from "react-native";
 
-export const reviewApi = (path, options = {}) =>
-  fetch(`${BASE_URL}/api${path}`, options).then(async res => {
+const BASE_URL = "http://localhost:3000";
+const AUTH_TOKEN = "ReviewApp::AUTH_TOKEN";
+
+export const saveAuthToken = token => {
+  if (!token) {
+    return AsyncStorage.removeItem(AUTH_TOKEN);
+  }
+
+  return AsyncStorage.setItem(AUTH_TOKEN, token);
+};
+
+export const reviewApi = (path, options = {}) => {
+  const completeOptions = {
+    ...options,
+    headers: {
+      ...options.headers,
+      "Content-Type": "application/json"
+    }
+  };
+
+  return fetch(`${BASE_URL}/api${path}`, completeOptions).then(async res => {
     const responseJson = await res.json();
 
     if (res.ok) {
@@ -10,3 +29,4 @@ export const reviewApi = (path, options = {}) =>
 
     throw new Error(responseJson.error);
   });
+};
