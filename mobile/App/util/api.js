@@ -13,7 +13,6 @@ export const saveAuthToken = token => {
 
 export const hasAuthToken = () => {
   return AsyncStorage.getItem(AUTH_TOKEN).then(token => {
-    console.log("token", token);
     if (token) {
       return true;
     }
@@ -23,21 +22,27 @@ export const hasAuthToken = () => {
 };
 
 export const reviewApi = (path, options = {}) => {
-  const completeOptions = {
-    ...options,
-    headers: {
-      ...options.headers,
-      "Content-Type": "application/json"
-    }
-  };
+  return AsyncStorage.getItem(AUTH_TOKEN).then(token => {
+    const completeOptions = {
+      ...options,
+      headers: {
+        ...options.headers,
+        "Content-Type": "application/json"
+      }
+    };
 
-  return fetch(`${BASE_URL}/api${path}`, completeOptions).then(async res => {
-    const responseJson = await res.json();
-
-    if (res.ok) {
-      return responseJson;
+    if (token) {
+      completeOptions.headers.authorization = `Bearer ${token}`;
     }
 
-    throw new Error(responseJson.error);
+    return fetch(`${BASE_URL}/api${path}`, completeOptions).then(async res => {
+      const responseJson = await res.json();
+
+      if (res.ok) {
+        return responseJson;
+      }
+
+      throw new Error(responseJson.error);
+    });
   });
 };
