@@ -3,7 +3,6 @@ import { ScrollView } from "react-native";
 
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
-import { reviewApi, saveAuthToken } from "../util/api";
 
 export default class SignIn extends React.Component {
   state = {
@@ -14,20 +13,8 @@ export default class SignIn extends React.Component {
 
   handleSubmit = () => {
     this.setState({ error: "" });
-    reviewApi("/sign-in", {
-      method: "POST",
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      })
-    })
-      .then(res => saveAuthToken(res.result.token))
-      .then(() => {
-        this.props.navigation.navigate("Information");
-      })
-      .catch(err => {
-        this.setState({ error: err.message });
-      });
+    alert("todo!");
+    this.props.navigation.navigate("Information");
   };
 
   render() {
