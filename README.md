@@ -1,4 +1,4 @@
-## React Native Weather App
+## React Native Review App
 
 A simple cross platform (iOS and Android) React Native review app and server (powered by now.sh) that has authentication integrated. This example was put together for [React Native by Example](https://learn.handlebarlabs.com/p/react-native-by-example). Get started learning & mastering React Native for free!
 
@@ -9,7 +9,7 @@ A simple cross platform (iOS and Android) React Native review app and server (po
 - `git clone https://github.com/ReactNativeSchool/react-native-review-app.git`
 - `cd mobile`
 - `yarn install`/`npm install`
-- `cd server` (available on `finished` branch only)
+- `cd server`
 - `yarn install`/`npm install`
 
 ### Running Mobile
@@ -17,7 +17,7 @@ A simple cross platform (iOS and Android) React Native review app and server (po
 - `cd mobile`
 - `yarn run ios`/`npm run ios` or `yarn run android`/`npm run android`
 
-### Running Server (Available on `finished` branch only)
+### Running Server
 
 - `cd server`
 - `now dev`
