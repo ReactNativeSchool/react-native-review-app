@@ -123,7 +123,7 @@ class RestaurantDetails extends React.Component {
             {this.state.reviews.map(review => (
               <View key={review._id} style={styles.review}>
                 <Text style={styles.dateText}>
-                  {format(review.createdAt, "MMMM Do, YYYY")}
+                  {format(new Date(review.createdAt), "MMMM d, yyyy")}
                 </Text>
                 <Text style={styles.text}>{review.content}</Text>
               </View>
