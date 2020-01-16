@@ -14,9 +14,11 @@ const connectToDatabase = () => {
   }
 
   console.log("=> using new database connection");
-  return mongoose.connect(DB_URL, { useNewUrlParser: true }).then(db => {
-    isConnected = db.connections[0].readyState;
-  });
+  return mongoose
+    .connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(db => {
+      isConnected = db.connections[0].readyState;
+    });
 };
 
 module.exports = connectToDatabase;
