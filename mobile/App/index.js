@@ -1,10 +1,7 @@
 import React from "react";
 import { StatusBar, TouchableOpacity, Text } from "react-native";
-import {
-  createAppContainer,
-  createStackNavigator,
-  createSwitchNavigator
-} from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
 import List from "./screens/List";
 import RestaurantDetails from "./screens/RestaurantDetails";
@@ -27,7 +24,7 @@ const Information = createStackNavigator(
       screen: List,
       navigationOptions: ({ navigation }) => ({
         headerTitle: "Restaurants",
-        headerRight: (
+        headerRight: () => (
           <TouchableOpacity
             onPress={() => {
               saveAuthToken().then(() => navigation.navigate("Auth"));
