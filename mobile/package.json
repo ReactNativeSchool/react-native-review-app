@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.6",
-    "date-fns": "^2.9.0",
+    "date-fns": "^2.12.0",
     "expo": "^37.0.0",
     "react": "16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.0.tar.gz",
@@ -17,13 +17,13 @@
     "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
-    "react-navigation": "^4.0.10",
-    "react-navigation-stack": "^2.0.15"
+    "react-navigation": "^4.3.7",
+    "react-navigation-stack": "^2.3.11"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.1.0",
     "eslint": "^6.8.0",
-    "eslint-config-handlebarlabs": "^0.0.4",
+    "eslint-config-handlebarlabs": "^0.0.5",
     "prettier": "^1.19.1"
   },
   "private": true
